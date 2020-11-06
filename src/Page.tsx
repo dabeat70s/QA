@@ -1,26 +1,23 @@
 /**@jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { FC } from 'react';
-import { PageTitle } from './PageTitle';
+import { css, jsx } from "@emotion/core";
+import { FC } from "react";
+import { PageTitle } from "./PageTitle";
 
 interface Props {
-title?: string;
+  title?: string;
 }
 
-export const Page: FC<Props> =
-({ title, children }) => 
-
-(
-<div
-css={css`
-margin: 50px auto 20px auto;
-padding: 30px 20px;
-max-width: 600px;
-`}
->
-{title && <PageTitle>{title }</PageTitle>}
-{/* <PageTitle>{children}</PageTitle>{console.log(children)} */}
-{children}
-</div>
+export const Page: FC<Props> = ({ title, children }) => (
+  <div
+    css={css`
+      margin: 50px auto 20px auto;
+      padding: 30px 20px;
+      max-width: 600px;
+    `}
+  >
+    {title && <PageTitle>{title}</PageTitle>}
+    {/* <PageTitle>{children}</PageTitle>{console.log(children)} */}
+    {children}
+  </div>
 );

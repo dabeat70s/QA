@@ -2,7 +2,7 @@
 /**@jsx jsx */
 import { css, jsx } from "@emotion/core";
 import React, { useState } from "react";
-import { useEffect } from "react";
+
 import { PrimaryButton } from "./Styles";
 import { QuestionList } from "./QuestionList";
 import {
@@ -12,13 +12,15 @@ import {
 } from "./QuestionsData";
 import { Page } from "./Page";
 import { PageTitle } from "./PageTitle";
+import { RouteComponentProps } from 'react-router-dom';
+import { useEffect, FC } from 'react';
 
 // const renderQuestion = (question: QuestionData) =>
 // <div>{question.title}{console.log(question)}</div>;
 
 // const renClint = (question:QuestionData)=> <div>{question.answers[1].content}</div>;
 
-export const HomePage = () => {
+export const HomePage:FC<RouteComponentProps> = ({ history }) => {
   const [questions, setQuestions] = useState<QuestionData[] | null>(null);
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -35,6 +37,7 @@ export const HomePage = () => {
   console.log('rendered');
 
   const handleAskQuestionClick = () => {
+      history.push('/ask');
     setCount(count + 1);
     console.log('TODO - move to the AskPage ct = ' ,count);
     };

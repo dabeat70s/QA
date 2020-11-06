@@ -1,14 +1,25 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 import { UserIcon } from "./Icons";
 /**@jsxRuntime classic */
 /**@jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { fontFamily, fontSize, gray1, gray2, gray5 } from "./Styles";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
-export const Header = () => {
-    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-console.log(e.currentTarget.value);
-};
+
+export const Header: FC<RouteComponentProps> = ({ history, location }) => {
+  const searchParams = new URLSearchParams(location.search);
+  const criteria = searchParams.get("criteria") || "";
+  const [search, setSearch] = useState(criteria);
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    history.push(`/search?criteria=${search}`);
+    };
   return (
     <div
       css={css`
@@ -25,8 +36,8 @@ console.log(e.currentTarget.value);
         box-shadow: 0 3px 7px 0 rgba(110, 112, 114, 0.21);
       `}
     >
-      <a
-        href="./"
+      <Link
+        to="/"
         css={css`
           font-size: 24px;
           font-weight: bold;
@@ -35,29 +46,33 @@ console.log(e.currentTarget.value);
         `}
       >
         Q & A
-      </a>
-      <input
-        type="text"
-        placeholder="Search..."
-        onChange={handleSearchInputChange}
-        css={css`
-          box-sizing: border-box;
-          font-family: ${fontFamily};
-          font-size: ${fontSize};
-          padding: 8px 10px;
-          border: 1px solid ${gray5};
-          border-radius: 3px;
-          color: ${gray2};
-          background-color: white;
-          width: 200px;
-          height: 30px;
-          :focus {
-            outline-color: ${gray5};
-          }
-        `}
-      />
-      <a
-        href="./signin"
+      </Link>
+      <form onSubmit={handleSearchSubmit}>
+        {" "}
+        <input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={handleSearchInputChange}
+          css={css`
+            box-sizing: border-box;
+            font-family: ${fontFamily};
+            font-size: ${fontSize};
+            padding: 8px 10px;
+            border: 1px solid ${gray5};
+            border-radius: 3px;
+            color: ${gray2};
+            background-color: white;
+            width: 200px;
+            height: 30px;
+            :focus {
+              outline-color: ${gray5};
+            }
+          `}
+        />
+      </form>
+      <Link
+        to="./signin"
         css={css`
           font-family: ${fontFamily};
           font-size: ${fontSize};
@@ -76,7 +91,9 @@ console.log(e.currentTarget.value);
       >
         <UserIcon />
         <span>Sign In</span>
-      </a>
+      </Link>
     </div>
   );
 };
+
+export const HeaderWithRouter = withRouter(Header);
